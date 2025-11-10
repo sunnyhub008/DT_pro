@@ -1,7 +1,4 @@
 import streamlit as st
-from playsound import playsound
-import threading
-import time
 import matplotlib.pyplot as plt
 
 # -------------------------------
@@ -64,15 +61,16 @@ if st.button("Check Ventilation"):
     st.markdown(f"### 💡 Status: {alert_message}")
 
     # -------------------------------
-    #  SOUND ALERT
+    #  SOUND ALERT (Web-Compatible)
     # -------------------------------
     if "Poor" in alert_message:
-        def play_sound():
-            playsound("alert.mp3")
-
-        threading.Thread(target=play_sound, daemon=True).start()
-
-        st.error("⚠️ Alert Sound Played! Ventilation is Poor.")
+        # Play alert sound using Streamlit's audio player
+        try:
+            st.audio("alert.mp3", format="audio/mp3")
+        except:
+            pass  # If audio file not found, continue without it
+        
+        st.error("⚠️ Alert! Ventilation is Poor.")
     else:
         st.success("✅ Everything looks fine.")
 
@@ -80,9 +78,4 @@ if st.button("Check Ventilation"):
 #  FOOTER
 # -------------------------------
 st.markdown("---")
-st.markdown("👨‍🔬 *Developed as a Smart Ventilation Prototype — detects poor indoor air quality through user inputs.*")
-
-
-
-
-
+st.markdown("👨‍🔬 *Developed as a Smart Ventilation Prototype – detects poor indoor air quality through user inputs.*")
